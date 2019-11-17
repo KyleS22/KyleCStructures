@@ -9,4 +9,8 @@ KyleCStructs::Foo::Foo(int a){
 
 void KyleCStructs::Foo::printSomething(){
 	cout << "This is a normal print\n";
+
+	#ifdef DEBUG
+		cout << "This is a debug statement\n";
+	#endif
 }
