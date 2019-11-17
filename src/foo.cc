@@ -8,5 +8,5 @@ KyleCStructs::Foo::Foo(int a){
 }
 
 void KyleCStructs::Foo::printSomething(){
-	cout << "This is a normal print";
+	cout << "This is a normal print\n";
 }

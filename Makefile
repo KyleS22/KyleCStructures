@@ -10,7 +10,7 @@ FOO_OBJ = foo.o
 
 # TODO: This does not work, gets undefined reference errors
 test_foo: test_foo.o libfoo.so
-	$(CC) -o test_foo -L$(CURDIR)/bin -lfoo test_foo.o
+	$(CC) -o test_foo test_foo.o -L$(CURDIR)/bin -lfoo -Wl,-rpath,$(CURDIR)/bin
 
 test_foo.o: test/test_foo.cc
 	$(CC) -c $(CXXFLAGS) test/test_foo.cc -o $@
