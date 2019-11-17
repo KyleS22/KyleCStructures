@@ -1,29 +1,53 @@
-CC = g++
 
+# Compiler Flags
+CC = g++
 CXXFLAGS = -Iinclude -Wall -Wextra
 
+# Directory Structure
+BIN_DIR=$(CURDIR)/bin
+LIB_DIR=$(CURDIR)/lib
+OBJ_DIR=$(CURDIR)/obj
 
-FOO_OBJ = foo.o
+# Library Stuff
+LIBKYLE=-L$(LIB_DIR) -lkyle -Wl,-rpath,$(LIB_DIR)
 
-# TODO: Create directory to store object files
-# TOOD: Create a bin directory
+KYLE_OBJ = $(OBJ_DIR)/foo.o
 
-# TODO: This does not work, gets undefined reference errors
-test_foo: test_foo.o libfoo.so
-	$(CC) -o test_foo test_foo.o -L$(CURDIR)/bin -lfoo -Wl,-rpath,$(CURDIR)/bin
+
+# TODO: Set up unit testing
+# TODO: Code Coverage?
+# TODO: Generate documentation
+# TODO: Set up install
+
+#---------------------------------
+# Create All
+#---------------------------------
+all: builddirs test_foo
+
+#---------------------------------
+# Build Directories
+#---------------------------------
+builddirs:
+	mkdir -p $(BIN_DIR)/
+	mkdir -p $(LIB_DIR)/
+	mkdir -p $(OBJ_DIR)/
+
+test_foo: builddirs test_foo.o libkyle.so
+	$(CC) -o $(BIN_DIR)/test_foo $(OBJ_DIR)/test_foo.o $(LIBKYLE)
 
 test_foo.o: test/test_foo.cc
-	$(CC) -c $(CXXFLAGS) test/test_foo.cc -o $@
+	$(CC) -c $(CXXFLAGS) test/test_foo.cc -o $(OBJ_DIR)/$@
 
-libfoo.so: $(FOO_OBJ)
-	$(CC) $(FOO_OBJ) -shared -o bin/$@
+libkyle.so: builddirs foo.o
+	$(CC) $(KYLE_OBJ) -shared -o $(LIB_DIR)/$@
 
 foo.o: src/foo.cc include/foo.h
-	$(CC) -c -fPIC $(CXXFLAGS) $< -o $@
+	$(CC) -c -fPIC $(CXXFLAGS) $< -o $(OBJ_DIR)/$@
 
 clean:
-	rm -rf *.o
-	rm -rf test_foo
+	rm -rf $(BIN_DIR)
+	rm -rf $(LIB_DIR)
+	rm -rf $(OBJ_DIR)
 
 
 
