@@ -12,6 +12,9 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
+# Export the symbols on windows so we can make a .lib file
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
