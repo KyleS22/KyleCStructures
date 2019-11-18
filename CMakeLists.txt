@@ -7,9 +7,10 @@ project(kyle_structs VERSION 1.0.0 DESCRIPTION "C++ Data Structures.")
 include(GNUInstallDirs)
 
 # Use -DCMAKE_BUILD_TYPE=WHATEVER to switch 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -g -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
-
+IF(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -g -DDEBUG")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
+ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
