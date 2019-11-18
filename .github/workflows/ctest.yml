@@ -18,13 +18,18 @@ jobs:
   
   build-windows:
       
-      runs-on: macos-latest
+      runs-on: windows-latest
       
       steps:
         - uses: actions/checkout@v1
         - name: configure
-          run: mkdir build && cd build && cmake ..
+          run: | 
+            mkdir build
+            cd build
+            cmake ..
         - name: build
           run: cmake --build build
         - name: test
-          run: cd build && ctest
+          run: |
+            cd build
+            ctest
