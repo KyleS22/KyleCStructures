@@ -3,16 +3,15 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  build-ubuntu:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run Tests
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-        make
-        ctest
+    - name: Configure
+      run: mkdir build
+    - name: build
+      run: cmake --build build
+    - name: test
+      run: cd build && ctest
