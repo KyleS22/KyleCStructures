@@ -33,3 +33,22 @@ jobs:
           run: |
             cd build
             ctest
+            
+  build-macos:
+      
+      runs-on: macos-latest
+      
+      steps:
+        - uses: actions/checkout@v1
+        - name: configure
+          run: | 
+            mkdir build
+            cd build
+            cmake ..
+        - name: build
+          run: cmake --build build
+        - name: test
+          run: |
+            cd build
+            ctest
+  
