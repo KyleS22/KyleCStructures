@@ -18,7 +18,7 @@ jobs:
   
   build-windows:
       
-      runs-on: windows-latest
+      runs-on: macos-latest
       
       steps:
         - uses: actions/checkout@v1
