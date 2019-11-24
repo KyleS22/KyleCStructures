@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
+# ===========================================================================
+# Project Config
+# ===========================================================================
+
 set(CMAKE_CXX_STANDARD 11)
 
 # Specify Project Stuff
@@ -16,6 +20,76 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 # Export the symbols on windows so we can make a .lib file
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+# ============================================================================
+# Library Targets
+# ============================================================================
+
+# Generate the shared library
+add_library(kyle_structs SHARED src/foo.cc)
+
+# Set the version, soversion, and public api files
+set_target_properties(kyle_structs PROPERTIES 
+	VERSION ${PROJECT_VERSION} 
+	SOVERSION 1
+	PUBLIC_HEADER "include/foo.h")
+
+# Configure a pc file 
+configure_file(kyle_structs.pc.in kyle_structs.pc @ONLY)
+
+# Tell it where the include files are
+target_include_directories(kyle_structs PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+# ===============================================================================
+# Installation Config
+# ===============================================================================
+
+# Tell it where the library and header files go
+install(TARGETS kyle_structs LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# set up the pkgconfig files for install
+install(FILES ${CMAKE_BINARY_DIR}/kyle_structs.pc
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+
+# Allow Install of Man Pages
+if (UNIX)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs/man/man3/ DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man3)
+endif ()
+
+# ==========================================================================================
+# Documentation
+# ==========================================================================================
+
+# Build documentation in release mode only
+if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+	
+	# Make sure we can use Doxygen
+	find_package(Doxygen)
+	
+	if (${DOXYGEN_FOUND})
+		
+		# Build the documentation with make
+		set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+		set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+		configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+
+
+		add_custom_target(doc ALL
+			COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+			COMMENT "Generating API documentation with Doxygen"
+			VERBATIM
+		)
+	else (DOXYGEN_FOUND)
+		message("Doxygen must be installed to generate documentation.")
+	endif()
+endif()
+
+
+#===============================================================================
+# Tests
+#==============================================================================
 
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -54,57 +128,7 @@ endif()
 #target_link_libraries(example gtest_main)
 #add_test(NAME example_test COMMAND example)
 
-# Generate the shared library
-add_library(kyle_structs SHARED src/foo.cc)
 
-# Set the version, soversion, and public api files
-set_target_properties(kyle_structs PROPERTIES 
-	VERSION ${PROJECT_VERSION} 
-	SOVERSION 1
-	PUBLIC_HEADER "include/foo.h")
-
-# Configure a pc file 
-configure_file(kyle_structs.pc.in kyle_structs.pc @ONLY)
-
-# Tell it where the include files are
-target_include_directories(kyle_structs PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# Tell it where the library and header files go
-install(TARGETS kyle_structs LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-# set up the pkgconfig files for install
-install(FILES ${CMAKE_BINARY_DIR}/kyle_structs.pc
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
-
-if (UNIX)
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs/man/man3/ DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man3)
-endif ()
-
-# Build documentation in release mode only
-if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
-
-	find_package(Doxygen)
-
-
-
-	if (${DOXYGEN_FOUND})
-	
-		set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
-		set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-
-		configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-
-
-		add_custom_target(doc ALL
-			COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-			COMMENT "Generating API documentation with Doxygen"
-			VERBATIM
-		)
-	else (DOXYGEN_FOUND)
-		message("Doxygen must be installed to generate documentation.")
-	endif()
-endif()
 
 enable_testing()
 
