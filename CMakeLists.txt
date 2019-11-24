@@ -26,13 +26,13 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # ============================================================================
 
 # Generate the shared library
-add_library(kyle_structs SHARED src/foo.cc)
+add_library(kyle_structs SHARED src/foo.cc src/kyle_exceptions.cc)
 
 # Set the version, soversion, and public api files
 set_target_properties(kyle_structs PROPERTIES 
 	VERSION ${PROJECT_VERSION} 
 	SOVERSION 1
-	PUBLIC_HEADER "include/foo.h")
+	PUBLIC_HEADER "include/foo.h", "include/kyle_exceptions.h")
 
 # Configure a pc file 
 configure_file(kyle_structs.pc.in kyle_structs.pc @ONLY)

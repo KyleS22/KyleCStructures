@@ -1,1 +1,1 @@
-{"src/foo.cc": "make -C build", "include/foo.h": "make -C build", "test/gtest_main.cc": "make -C build"}
+{"src/foo.cc": "make -C debug", "include/foo.h": "make -C debug", "test/gtest_main.cc": "make -C debug", "include/after_the_end_exception.h": "make -C debug", "src/after_the_end_exception.cc": "make -C debug"}
