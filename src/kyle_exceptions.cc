@@ -22,3 +22,15 @@ AfterTheEndException::AfterTheEndException(char const* const message) throw()
 char const* AfterTheEndException::what() const throw(){
 	return "The cursor has gone past the end of the structure!";
 }
+
+
+// TODO: BeforeTheStartException
+// TODO: ContainerException
+// TODO: ContainerEmptyException
+// TODO: ContainerFullException
+// TODO: DuplicateItemException
+// TODO: InvalidArgumentException
+// TODO: InvalidStateException
+// TODO: ItemNotFoundException
+// TODO: IteratorException
+// TODO: NoCurrentItemException

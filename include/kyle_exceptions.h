@@ -39,6 +39,17 @@ namespace KyleCStructs{
 			virtual char const* what() const throw();
 		};
 	}
+
+// TODO: BeforeTheStartException
+// TODO: ContainerException
+// TODO: ContainerEmptyException
+// TODO: ContainerFullException
+// TODO: DuplicateItemException
+// TODO: InvalidArgumentException
+// TODO: InvalidStateException
+// TODO: ItemNotFoundException
+// TODO: IteratorException
+// TODO: NoCurrentItemException
 }
 
 #endif // AFTER_THE_END_EXCEPTION_INCLUDE
