@@ -34,3 +34,6 @@ bin/*
 build/*
 # VIM stuff
 *.swp
+
+debug/*
+release/*
