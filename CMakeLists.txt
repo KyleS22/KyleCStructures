@@ -76,6 +76,9 @@ install(TARGETS kyle_structs LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_
 install(FILES ${CMAKE_BINARY_DIR}/kyle_structs.pc
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
+if (UNIX)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs/man/man3/ DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man3)
+endif ()
 
 # Build documentation in release mode only
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
