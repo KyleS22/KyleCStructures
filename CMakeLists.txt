@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_CXX_STANDARD 11)
 
 # Specify Project Stuff
-project(kyle_structs VERSION 1.0.0 DESCRIPTION "C++ Data Structures.")
+project(kyle_structs VERSION 0.1.0 DESCRIPTION "C++ Data Structures.")
 
 # Need this for install
 include(GNUInstallDirs)
@@ -76,6 +76,28 @@ install(TARGETS kyle_structs LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_
 install(FILES ${CMAKE_BINARY_DIR}/kyle_structs.pc
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
+find_package(Doxygen
+	     REQUIRED dot
+	     OPTIONAL_COMPONENTS mscgen dia)
+
+
+if (${DOXYGEN_FOUND})
+	
+	set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+	set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+
+
+	add_custom_target(doc ALL
+		COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		COMMENT "Generating API documentation with Doxygen"
+		VERBATIM
+	)
+else (DOXYGEN_FOUND)
+	message("Doxygen must be installed to generate documentation.")
+endif()
 
 enable_testing()
 

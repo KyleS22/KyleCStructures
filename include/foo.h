@@ -12,25 +12,24 @@
 /// @brief Contains various data structures
 namespace KyleCStructs {
 	
-	/// @brief Class representing a Foo
-	/// @author me
+        // {% classy comment here %}
+        /// @brief {% Brief Description %}
+        ///@author {% Author %}
 	class Foo{
 		private:
 			int m_a;
 
 		public:
-                        /// @brief Make a foo
+                        /// @brief {% What it do %}
                         ///
-                        /// @param a Input param
+                        /// @pre {% Preconditions %}
+                        /// @post {% Postconditions %}
                         ///
-                        /// @return A foo
-			///
-			/// @details some details
-			///
-			/// Example:
-			/// @code
-			///	foo;
-			/// @endcode
+                        /// @param int a: {% A parameter %}
+                        ///
+                        /// @return {% A thing %}
+                        ///
+                        /// @details {% Details go here %}
 			Foo(int a);
 
 			void printSomething();
